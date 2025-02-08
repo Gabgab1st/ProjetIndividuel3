@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Site PHP</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-</head>
-<body>
-    <header>
-        <h1>Mon Site PHP</h1>
-        <nav>
-            <a href="/index.php">Accueil</a>
-            <a href="/admin/index.php">Admin</a>
-        </nav>
-    </header>
+<header style="background-color: black; color: white; padding: 10px 0;">
+    <div class="container">
+        <h2 style="text-align: center; margin: 0;">Mon Site Web</h2>
+        <a href="admin/login.php" class="btn-login">Accéder à l'Admin</a>
+
+    </div>
+</header>
