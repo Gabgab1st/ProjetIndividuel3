@@ -1,0 +1,117 @@
+/* Styles pour la Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    height: 100vh; /* Hauteur de la sidebar */
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ecf0f1;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    padding: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #1abc9c;
+    color: #fff;
+}
+
+.sidebar ul li a.active {
+    background-color: #16a085;
+}
+
+/* Styles pour le sous-menu */
+.sidebar .submenu {
+    display: none;
+    list-style-type: none;
+    padding-left: 20px;
+    margin: 0;
+}
+
+/* Au survol, les sous-menus s'affichent sur les grands écrans */
+.sidebar ul li:hover .submenu {
+    display: block;
+}
+
+.sidebar .submenu li a {
+    font-weight: normal;
+    padding: 8px;
+}
+
+.sidebar .submenu li a:hover {
+    background-color: #1abc9c;
+}
+
+/* Sur les petits écrans (moins de 600px) */
+@media (max-width: 600px) {
+    .sidebar .submenu {
+        display: block; /* Le sous-menu est toujours visible sur les petits écrans */
+    }
+
+    .sidebar {
+        width: 100%; /* La sidebar prend toute la largeur sur mobile */
+        height: auto; /* Permet à la sidebar de s'adapter à la hauteur du contenu */
+        position: static; /* La sidebar ne sera plus fixe sur mobile */
+        box-sizing: border-box;
+    }
+
+    .sidebar h2 {
+        font-size: 1.2em;
+    }
+
+    .sidebar ul li {
+        margin: 10px 0;
+    }
+
+    /* Cacher le bouton de la sidebar-toggle sur les écrans mobiles (plus besoin avec la sidebar ouverte) */
+    .sidebar-toggle {
+        display: none;
+    }
+}
+
+/* Styles pour les écrans plus larges (plus de 600px) */
+@media (min-width: 600px) {
+    /* Les sous-menus apparaissent uniquement au survol */
+    .sidebar .submenu {
+        display: none;
+    }
+
+    /* La sidebar reste fixée sur l'écran */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        height: 100vh;
+    }
+
+    .sidebar ul li:hover .submenu {
+        display: block;
+    }
+}

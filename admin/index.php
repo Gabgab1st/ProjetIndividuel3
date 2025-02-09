@@ -1,7 +1,11 @@
 <?php
-// admin/index.php
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login.php"); // Redirection si pas connecté ou pas admin
+    exit();
+}
 
-// Inclure le fichier de configuration (ajuste le chemin si nécessaire)
+
 require_once '../config.php';
 
 // Création de la connexion avec MySQLi
@@ -22,9 +26,9 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Index</title>
-    <!-- Lien vers le fichier CSS (ajuste le chemin si nécessaire) -->
-    <link rel="stylesheet" href="assets/style.css">
-    
+    <link rel="stylesheet" href="assets/index.css"> 
+    <link rel="stylesheet" href="assets/sidebar.css">
+    <link rel="stylesheet" href="assets/footer.css">    
 </head>
 <body>
     <div class="container">

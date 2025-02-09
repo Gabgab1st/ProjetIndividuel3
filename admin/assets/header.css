@@ -1,0 +1,19 @@
+/* Header Styles */
+header {
+    background-color: #2c3e50; /* Couleur de fond du header */
+    color: white; /* Texte en blanc */
+    padding: 20px 0; /* Espacement intérieur */
+    text-align: center; /* Centrer le texte */
+    position: relative;
+    width: 100%; /* S'assure que le header occupe toute la largeur */
+    top: 0;
+    margin: 0;
+}
+
+
+/* Titre principal dans le header */
+header h2 {
+    font-size: 28px; /* Taille du texte */
+    margin: 0; /* Enlever les marges */
+    padding-bottom: 10px; /* Un petit espace sous le titre */
+}

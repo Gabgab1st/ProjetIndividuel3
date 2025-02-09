@@ -1,0 +1,59 @@
+/* edit.css */
+
+/* Style de base pour la table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+/* Style des en-têtes de table */
+th {
+    background-color: #f4f4f4;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Style des cellules */
+td {
+    padding: 12px;
+    text-align: left;
+}
+
+/* Style des lignes survolées */
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Style du lien "Modifier" */
+td a {
+    color: #1abc9c;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 1px solid #1abc9c;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Effet au survol du lien "Modifier" */
+td a:hover {
+    background-color: #1abc9c;
+    color: white;
+}
+
+/* Gestion de la mise en page de la table pour les petits écrans */
+@media (max-width: 600px) {
+    table, th, td {
+        font-size: 14px;
+    }
+
+    td a {
+        padding: 4px 8px;
+    }
+}

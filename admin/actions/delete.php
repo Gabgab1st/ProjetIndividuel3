@@ -1,14 +1,9 @@
 <?php
 session_start();
-
-// Vérifiez si l'utilisateur est connecté
-if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
-    // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
-    header("Location: /login.php");
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../login.php");
     exit();
 }
-
-
 
 require_once '../../config.php';
 
@@ -18,66 +13,79 @@ if ($conn->connect_error) {
     die("Échec de la connexion : " . $conn->connect_error);
 }
 
-// Vérifier la présence d'un identifiant utilisateur en GET
-if (isset($_GET['id'])) {
-    $user_id = intval($_GET['id']);
-} else {
-    echo "Aucun utilisateur spécifié.";
-    exit;
-}
+// Supprimer un utilisateur si une demande POST est envoyée
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['user_id'])) {
+    $user_id = intval($_POST['user_id']);
 
-// Traitement de la demande de suppression
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $stmt = $conn->prepare("DELETE FROM utilisateurs WHERE id = ?");
-    $stmt->bind_param("i", $user_id);
-    if ($stmt->execute()) {
-        header("Location: index.php");
-        exit;
-    } else {
-        $error = "Erreur lors de la suppression : " . $stmt->error;
-    }
-} else {
-    // Récupérer les informations de l'utilisateur pour confirmation
-    $stmt = $conn->prepare("SELECT nom, email FROM utilisateurs WHERE id = ?");
+    // Vérification que l'utilisateur existe
+    $stmt = $conn->prepare("SELECT * FROM utilisateurs WHERE id = ?");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    if ($result->num_rows === 0) {
-        echo "Utilisateur non trouvé.";
-        exit;
+
+    if ($result->num_rows === 1) {
+        $stmt = $conn->prepare("DELETE FROM utilisateurs WHERE id = ?");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $message = "Utilisateur supprimé avec succès.";
+    } else {
+        $error = "Utilisateur introuvable.";
     }
-    $user = $result->fetch_assoc();
 }
+
+// Récupérer la liste des utilisateurs
+$sql = "SELECT id, nom, email FROM utilisateurs";
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Supprimer l'utilisateur</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Supprimer un Utilisateur</title>
+    <link rel="stylesheet" href="../assets/login.css"> 
+    <link rel="stylesheet" href="../assets/sidebar.css">
+    <link rel="stylesheet" href="../assets/footer.css">
+    <link rel="stylesheet" href="../assets/edit.css">   
 </head>
 <body>
-<div class="sidebar">
-            <?php include 'includes/sidebar.php'; ?>
-        </div>
-    <div class="content">
-        <h1>Supprimer l'utilisateur</h1>
-        <?php
-        if (isset($error)) {
-            echo "<p style='color:red;'>" . htmlspecialchars($error) . "</p>";
-        }
-        ?>
-        <p>
-            Êtes-vous sûr de vouloir supprimer l'utilisateur 
-            <strong><?php echo htmlspecialchars($user['nom']); ?></strong> (<?php echo htmlspecialchars($user['email']); ?>) ?
-        </p>
-        <form action="" method="post">
-            <button type="submit" onclick="return confirm('Confirmer la suppression ?');">Supprimer</button>
-            <a href="index.php">Annuler</a>
-        </form>
+    <div class="sidebar">
+        <?php include '../includes/sidebar.php'; ?>
     </div>
+    
+    <div class="content">
+        <h1>Liste des Utilisateurs</h1>
+        
+        <?php if (isset($message)) echo "<p style='color:green;'>$message</p>"; ?>
+        <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($user = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($user['id']); ?></td>
+                        <td><?php echo htmlspecialchars($user['nom']); ?></td>
+                        <td><?php echo htmlspecialchars($user['email']); ?></td>
+                        <td>
+                            <form method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?');">
+                                <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                                <button type="submit" class="btn-danger">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php include "../includes/footer.php"; ?>
+
 </body>
 </html>
-<?php
-$conn->close();
-?>
+<?php $conn->close(); ?>

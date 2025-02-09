@@ -1,0 +1,45 @@
+/* header.css */
+
+/* Header et footer sans marges ni padding */
+header {
+    width: 100%;
+    background-color: #242424; /* Couleur de fond du header */
+    color: white;
+    padding: 10px 0;
+    margin: 0;
+}
+
+header h2 {
+    text-align: center;
+    margin: 0;
+    padding: 20px 0;
+}
+
+
+.btn-login {
+    background-color: #808080; 
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 15px; /* Espacement au-dessus du bouton */
+}
+
+/* Effet au survol */
+.btn-login:hover {
+    background-color: #666666; /* Gris foncé au survol */
+    transform: scale(1.05); /* Légère augmentation de la taille au survol */
+}
+
+/* Pour s'assurer que le bouton soit centré et bien espacé */
+header .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}

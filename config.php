@@ -10,7 +10,5 @@ $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 // Vérification de la connexion
 if ($conn->connect_error) {
     die("Échec de la connexion : " . $conn->connect_error);
-} else {
-    echo "Connexion réussie à la base de données !";
-}
+} 
 ?>
